@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Do You Love Me?</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url('heart-background.jpg'); /* Use a heart-shaped background image */
+            background-size: cover;
+            background-position: center;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            text-align: center;
+            transition: background-color 0.5s;
+        }
+
+        h1 {
+            font-size: 3em;
+            color: #ff69b4;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.5em;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 50px;
+            background-color: #ffb6c1;
+            color: white;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            background-color: #ff69b4;
+            transform: scale(1.05);
+        }
+
+        .message {
+            display: none;
+            font-size: 2em;
+            margin-top: 30px;
+        }
+
+        .happy {
+            color: #ff69b4;
+        }
+
+        .sad {
+            color: #6495ed;
+        }
+
+        .heart {
+            color: #ff69b4;
+            font-size: 2em;
+            position: absolute;
+            animation: float 2s ease-in-out infinite;
+        }
+
+        .raindrop {
+            color: #6495ed;
+            font-size: 2em;
+            position: absolute;
+            animation: drop 1s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); opacity: 1; }
+            50% { transform: translateY(-30px); opacity: 0.7; }
+            100% { transform: translateY(0); opacity: 0.5; }
+        }
+
+        @keyframes drop {
+            0% { transform: translateY(-20px); opacity: 0.5; }
+            50% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(20px); opacity: 0.5; }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Do You Love Me?</h1>
+    <div class="button-container">
+        <button onclick="showHappy()">Yes</button>
+        <button onclick="showSad()">No</button>
+    </div>
+
+    <div class="message happy">💕 I love you too !!! MWAHHH 💕</div>
+    <div class="message sad">😢 Bro, I thought we were locked in 😢</div>
+
+    <!-- Add an audio element for Careless Whisper -->
+    <audio id="romanticSong" src="careless-whisper.mp3"></audio>
+
+    <script>
+        function showHappy() {
+            const happyMessage = document.querySelector('.happy');
+            happyMessage.style.display = 'block';
+            happyMessage.classList.add('happy-animation');
+            document.querySelector('.sad').style.display = 'none';
+            createHearts();
+
+            // Play "Careless Whisper" from the beginning
+            const romanticSong = document.getElementById('romanticSong');
+            romanticSong.currentTime = 0; // Start from the beginning
+            romanticSong.play();
+        }
+
+        function showSad() {
+            const sadMessage = document.querySelector('.sad');
+            sadMessage.style.display = 'block';
+            sadMessage.classList.add('sad-animation');
+            document.querySelector('.happy').style.display = 'none';
+            createRaindrops();
+
+            // Stop the romantic song if playing
+            const romanticSong = document.getElementById('romanticSong');
+            romanticSong.pause();
+            romanticSong.currentTime = 0;
+        }
+
+        function createHearts() {
+            for (let i = 0; i < 10; i++) {
+                let heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = Math.random() * 2 + 2 + 's';
+                heart.textContent = '💖';
+                document.body.appendChild(heart);
+
+                setTimeout(() => {
+                    heart.remove();
+                }, 4000);
+            }
+        }
+
+        function createRaindrops() {
+            for (let i = 0; i < 10; i++) {
+                let raindrop = document.createElement('div');
+                raindrop.classList.add('raindrop');
+                raindrop.style.left = Math.random() * 100 + 'vw';
+                raindrop.style.animationDuration = Math.random() * 1 + 1 + 's';
+                raindrop.textContent = '💧';
+                document.body.appendChild(raindrop);
+
+                setTimeout(() => {
+                    raindrop.remove();
+                }, 2000);
+            }
+        }
+    </script>
+
+</body>
+</html>

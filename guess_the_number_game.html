@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guess the Number Game</title>
+  <style>
+    body {
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      color: white;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      padding: 50px;
+    }
+
+    h1 {
+      font-size: 3em;
+      margin-bottom: 20px;
+    }
+
+    input[type="number"] {
+      padding: 10px;
+      font-size: 1.2em;
+      margin: 10px;
+      border-radius: 5px;
+      border: none;
+      width: 150px;
+    }
+
+    button {
+      background-color: #ff6f61;
+      color: white;
+      padding: 10px 20px;
+      font-size: 1.2em;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #ff4a4a;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 1.5em;
+    }
+
+    #result.success {
+      color: #4CAF50;
+    }
+
+    #result.error {
+      color: #FF6F61;
+    }
+    
+    #play-again {
+      display: none;
+      margin-top: 20px;
+    }
+
+    #hint {
+      margin-top: 20px;
+      display: none;
+      font-size: 1.2em;
+      color: #ffcc00;
+    }
+
+    .container {
+      background-color: rgba(255, 255, 255, 0.2);
+      padding: 20px;
+      border-radius: 10px;
+      display: inline-block;
+    }
+
+    .hint-btn {
+      background-color: #4CAF50;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+
+    .hint-btn:hover {
+      background-color: #3e8e41;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Guess the Number Game</h1>
+    <p>I'm thinking of a number between 1 and 100. Can you guess it?</p>
+    
+    <input type="number" id="userGuess" placeholder="Enter your guess">
+    <br>
+    <button onclick="checkGuess()">Submit Guess</button>
+    
+    <div id="result"></div>
+    <button id="play-again" onclick="startGame()">Play Again</button>
+
+    <div id="hint"></div>
+    <button class="hint-btn" onclick="giveHint()">Get a Hint</button>
+  </div>
+
+  <script>
+    let randomNumber;
+    let attempts;
+
+    function startGame() {
+      randomNumber = Math.floor(Math.random() * 100) + 1;
+      attempts = 0;
+      document.getElementById('result').innerHTML = '';
+      document.getElementById('play-again').style.display = 'none';
+      document.getElementById('hint').style.display = 'none';
+      document.getElementById('userGuess').value = '';
+      document.getElementById('userGuess').disabled = false;
+      document.querySelector('button').disabled = false;
+    }
+
+    function checkGuess() {
+      let userGuess = parseInt(document.getElementById('userGuess').value);
+      attempts++;
+      let resultElement = document.getElementById('result');
+      
+      if (isNaN(userGuess) || userGuess < 1 || userGuess > 100) {
+        resultElement.innerHTML = "Please enter a number between 1 and 100!";
+        resultElement.className = "error";
+        return;
+      }
+
+      if (userGuess === randomNumber) {
+        resultElement.innerHTML = `Correct! You guessed the number ${randomNumber} in ${attempts} attempts!`;
+        resultElement.className = "success";
+        document.getElementById('userGuess').disabled = true;
+        document.querySelector('button').disabled = true;
+        document.getElementById('play-again').style.display = 'inline-block';
+      } else if (userGuess < randomNumber) {
+        resultElement.innerHTML = "Too low! Try again.";
+        resultElement.className = "error";
+      } else {
+        resultElement.innerHTML = "Too high! Try again.";
+        resultElement.className = "error";
+      }
+    }
+
+    function giveHint() {
+      let hintElement = document.getElementById('hint');
+      if (randomNumber <= 50) {
+        hintElement.innerHTML = "Hint: The number is between 1 and 50!";
+      } else {
+        hintElement.innerHTML = "Hint: The number is between 51 and 100!";
+      }
+      hintElement.style.display = 'block';
+    }
+
+    // Start the game when the page loads
+    startGame();
+  </script>
+</body>
+</html>

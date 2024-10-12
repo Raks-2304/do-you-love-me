@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Temperature Converter</title>
+  <style>
+    body {
+      background-color: indigo;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .thermometer-container {
+      margin: 30px auto;
+      width: 100px;
+      height: 300px;
+      background-color: #ccc;
+      border-radius: 50px;
+      position: relative;
+    }
+
+    .thermometer-bulb {
+      width: 80px;
+      height: 80px;
+      background-color: #ff8c00; /* Orange color */
+      border-radius: 50%;
+      position: absolute;
+      bottom: -40px;
+      left: 10px;
+    }
+
+    .thermometer-liquid {
+      background-color: #ff8c00; /* Orange color */
+      width: 60px;
+      position: absolute;
+      bottom: 40px;
+      left: 20px;
+      border-radius: 30px 30px 0 0;
+      height: 0%; /* Initial height for liquid, will change dynamically */
+      transition: height 0.3s ease; /* Smooth transition effect */
+    }
+
+    .temp-converter {
+      margin-top: 30px;
+    }
+
+    input[type="number"] {
+      padding: 10px;
+      width: 80px;
+      margin: 10px;
+      font-size: 1em;
+      border: none;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Temperature Converter</h1>
+  <div class="thermometer-container">
+    <div class="thermometer-liquid" id="thermometerLiquid"></div>
+    <div class="thermometer-bulb"></div>
+  </div>
+
+  <div class="temp-converter">
+    <label for="celsius">Celsius:</label>
+    <input type="number" id="celsius" oninput="convertFromCelsius()" placeholder="°C"><br>
+    
+    <label for="fahrenheit">Fahrenheit:</label>
+    <input type="number" id="fahrenheit" oninput="convertFromFahrenheit()" placeholder="°F"><br>
+    
+    <label for="kelvin">Kelvin:</label>
+    <input type="number" id="kelvin" oninput="convertFromKelvin()" placeholder="K">
+  </div>
+
+  <script>
+    function updateThermometer(celsius) {
+      const liquid = document.getElementById('thermometerLiquid');
+      // Limit the temperature range between 0°C and 100°C for visualization
+      let heightPercentage = Math.max(0, Math.min(100, celsius));
+      // Set the height of the liquid based on the temperature input (0-100%)
+      liquid.style.height = heightPercentage + '%';
+    }
+
+    function convertFromCelsius() {
+      let celsius = parseFloat(document.getElementById('celsius').value);
+      document.getElementById('fahrenheit').value = (celsius * 9/5) + 32;
+      document.getElementById('kelvin').value = celsius + 273.15;
+      updateThermometer(celsius); // Update the thermometer graphically
+    }
+
+    function convertFromFahrenheit() {
+      let fahrenheit = parseFloat(document.getElementById('fahrenheit').value);
+      let celsius = (fahrenheit - 32) * 5/9;
+      document.getElementById('celsius').value = celsius;
+      document.getElementById('kelvin').value = celsius + 273.15;
+      updateThermometer(celsius); // Update the thermometer graphically
+    }
+
+    function convertFromKelvin() {
+      let kelvin = parseFloat(document.getElementById('kelvin').value);
+      let celsius = kelvin - 273.15;
+      document.getElementById('celsius').value = celsius;
+      document.getElementById('fahrenheit').value = (celsius * 9/5) + 32;
+      updateThermometer(celsius); // Update the thermometer graphically
+    }
+  </script>
+</body>
+</html>
